@@ -10,9 +10,9 @@ pipeline {
         stage("Create an EKS Cluster") {
             steps {
                 script {
-                    sh 'mkdir -p EKSBuildPipeline1'
-                    sh 'cp -r path/to/your/source/files/* EKSBuildPipeline1/'
-                    dir('EKSBuildPipeline1') {
+                    sh 'mkdir -p EKSBuildPipeline2'
+                    sh 'cp -r path/to/your/source/files/* /var/lib/jenkins/workspace/EKSBuildPipeline2/'
+                    dir('EKSBuildPipeline2') {
                         sh "terraform init"
                         sh "terraform apply -auto-approve"
                     }
