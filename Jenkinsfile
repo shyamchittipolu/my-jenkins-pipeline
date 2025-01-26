@@ -19,11 +19,11 @@ pipeline {
                     // Copy files into the directory
                     sh 'cp -r EKSBuildPipeline EKSBuildPipeline1 EKSBuildPipeline2 EKSBuildPipeline3 EKSBuildPipeline@tmp Jenkinsfile backend.tf eks.tf kubernetes terraform terraform.tfvars terraform@tmp variables.tf vpc.tf /var/lib/jenkins/workspace/EKSBuildPipeline3/'
 
-                // Run Terraform commands within the target directory
+                    // Run Terraform commands within the target directory
                     dir('/var/lib/jenkins/workspace/EKSBuildPipeline3') {
-                            sh "terraform init"
-                            sh "terraform apply -auto-approve"
-                        }
+                        sh "terraform init"
+                        sh "terraform apply -auto-approve"
+                    }
                 }
             }
         }
@@ -34,6 +34,15 @@ pipeline {
                         sh "aws eks update-kubeconfig --name my-eks-cluster"
                         sh "kubectl apply -f nginx-deployment.yaml"
                         sh "kubectl apply -f nginx-service.yaml"
+                    }
+                }
+            }
+        }
+        stage("Destroy Infrastructure") {
+            steps {
+                script {
+                    dir('/var/lib/jenkins/workspace/EKSBuildPipeline3') {
+                        sh "terraform destroy -auto-approve"
                     }
                 }
             }
