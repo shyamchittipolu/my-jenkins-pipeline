@@ -6,12 +6,21 @@ pipeline {
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_DEFAULT_REGION = "eu-west-3"
     }
-    stages {
-        
-                            sh "terraform init"
-                            sh "terraform destroy -auto-approve"
-                        }
+     stages {
+        stage('Initialize Terraform') {
+            steps {
+                script {
+                    sh 'terraform init'
                 }
             }
         }
+        stage('Destroy Resources') {
+            steps {
+                script {
+                    sh 'terraform destroy -auto-approve'
+                }
+            }
+        }
+    }
+}
    
